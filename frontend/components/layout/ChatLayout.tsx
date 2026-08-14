@@ -52,6 +52,11 @@ export function ChatLayout({ activeId }: { activeId?: number }) {
   async function openDirect(userId: number) {
     const convo = await openDirectConversation(userId);
     setNewOpen(false);
+    // Optimistically add the conversation to the top of the list if not already there
+    setConversations((prev) => {
+      if (prev.find((c) => c.id === convo.id)) return prev;
+      return [convo, ...prev];
+    });
     await reload();
     router.push(`/chat/${convo.id}`);
   }

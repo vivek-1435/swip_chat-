@@ -36,11 +36,14 @@ export function AddContactModal({
 
   async function handleAddContact() {
     if (!selectedUser) return;
+    const userId = selectedUser.id;
     try {
-      await onAdd(selectedUser.id, savedName.trim() || undefined);
+      await onAdd(userId, savedName.trim() || undefined);
       notify("Contact added successfully", "success");
       setSelectedUser(null);
       setSavedName("");
+      // Immediately open a conversation so the contact appears in the sidebar
+      onOpenDirect(userId);
     } catch (err) {
       const e = err as Error;
       notify(e.message || "Failed to add contact", "error");
