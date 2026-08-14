@@ -23,13 +23,13 @@ export function useContacts() {
   }, [query]);
 
   async function add(userId: number, savedName?: string) {
-    await addContact(userId, savedName);
-    await reload();
+    const newContact = await addContact(userId, savedName);
+    setContacts((prev) => [newContact, ...prev]);
   }
 
   async function remove(userId: number) {
     await removeContact(userId);
-    await reload();
+    setContacts((prev) => prev.filter((c) => c.contact_user_id !== userId));
   }
 
   return { contacts, results, query, setQuery, add, remove, reload };
