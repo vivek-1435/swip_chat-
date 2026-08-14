@@ -32,7 +32,7 @@ export function MessageBubble({
           {mine && <MessageStatus status={message.status} />}
         </div>
         {message.reactions.length > 0 && <div className="mt-1 text-xs">{message.reactions.map((r) => r.emoji).join(" ")}</div>}
-        <div className="mt-2 hidden items-center gap-2 group-hover:flex">
+        <div className="mt-2 flex items-center gap-2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 touch-visible transition-opacity">
           <button className={classNames("rounded-full px-2 py-1 text-xs font-semibold no-underline transition", mine ? "bg-white/12 text-white hover:bg-white/18" : "bg-[#eef7f3] text-scalar-green hover:bg-[#e2f2eb]")} onClick={() => onReply(message)}>Reply</button>
           <button className={classNames("rounded-full px-2 py-1 text-xs font-semibold no-underline transition", mine ? "bg-white/12 text-white hover:bg-white/18" : "bg-[#eef7f3] text-scalar-green hover:bg-[#e2f2eb]")} onClick={() => setPicker((value) => !value)}>React</button>
         </div>

@@ -89,3 +89,46 @@ textarea {
 .scalar-select {
   @apply focus-ring h-10 rounded-full border border-scalar-line bg-white px-4 text-sm font-medium text-scalar-ink shadow-[0_1px_0_rgba(255,255,255,0.9)_inset];
 }
+
+/* ── Mobile / touch optimizations ─────────────────────────── */
+
+/* Safe area bottom padding (home bar on iPhone) */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Smooth native momentum scrolling on iOS */
+.overflow-y-auto {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+/* Prevent rubber-band scroll on body */
+html, body {
+  overscroll-behavior: none;
+  height: 100%;
+}
+
+/* App should use full viewport height accounting for mobile browser chrome */
+.h-screen {
+  height: 100dvh;
+}
+
+/* Slide-up animation for bottom-sheet modals on mobile */
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Larger minimum tap targets on touch devices */
+@media (pointer: coarse) {
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Reaction / reply buttons — always visible on touch (no hover) */
+  .touch-visible {
+    opacity: 1 !important;
+  }
+}
