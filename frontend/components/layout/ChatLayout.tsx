@@ -36,6 +36,19 @@ export function ChatLayout({ activeId }: { activeId?: number }) {
   const active = conversations.find((conversation) => conversation.id === activeId);
   const { messages, loading: messagesLoading, create, remove, update } = useMessages(activeId, lastEvent);
 
+  // Derive sidebar list: group convos always show; direct convos only show when the other user is a contact.
+  // This is reactive — as soon as contacts[] changes (e.g. after removal), the sidebar updates instantly.
+  const contactUserIds = useMemo(() => new Set(contacts.map((c) => c.contact_user_id)), [contacts]);
+  const sidebarConversations = useMemo(
+    () =>
+      conversations.filter((c) => {
+        if (c.type === "group") return true;
+        const other = c.members.find((m) => m.user_id !== user?.id);
+        return other ? contactUserIds.has(other.user_id) : true;
+      }),
+    [conversations, contactUserIds, user?.id]
+  );
+
   useEffect(() => {
     if (lastEvent?.type === "error") notify(lastEvent.message, "error");
     if (lastEvent?.type === "new_message" && lastEvent.message.sender_id !== user?.id) {
@@ -64,7 +77,7 @@ export function ChatLayout({ activeId }: { activeId?: number }) {
   return (
     <div className="grid h-screen grid-cols-1 overflow-hidden bg-scalar-wash md:grid-cols-[360px_1fr]">
       <div className={active ? "hidden md:block" : "block"}>
-        <Sidebar user={user} conversations={conversations} contacts={contacts} loading={loading} query={query} activeId={activeId} onQuery={setQuery} onSelect={(id) => router.push(`/chat/${id}`)} onNew={() => setNewOpen(true)} onGroup={() => setGroupOpen(true)} onProfile={() => setProfileOpen(true)} onLogout={signOut} />
+        <Sidebar user={user} conversations={sidebarConversations} contacts={contacts} loading={loading} query={query} activeId={activeId} onQuery={setQuery} onSelect={(id) => router.push(`/chat/${id}`)} onNew={() => setNewOpen(true)} onGroup={() => setGroupOpen(true)} onProfile={() => setProfileOpen(true)} onLogout={signOut} />
       </div>
       <main className={active ? "flex min-h-0 flex-col bg-[#efeae2]" : "hidden min-h-0 flex-col bg-[#efeae2] md:flex"}>
 
@@ -93,7 +106,7 @@ export function ChatLayout({ activeId }: { activeId?: number }) {
           </>
         )}
       </main>
-      <AddContactModal open={newOpen} onClose={() => setNewOpen(false)} onOpenDirect={openDirect} contacts={contacts} onAdd={async (userId, savedName) => { await addContact(userId, savedName); notify("Contact added.", "success"); }} onRemove={async (userId) => { await removeContact(userId); notify("Contact removed.", "success"); setConversations((prev) => prev.filter((c) => !(c.type === "direct" && c.members.some((m) => m.user_id === userId)))); void reload(); }} />
+      <AddContactModal open={newOpen} onClose={() => setNewOpen(false)} onOpenDirect={openDirect} contacts={contacts} onAdd={async (userId, savedName) => { await addContact(userId, savedName); notify("Contact added.", "success"); }} onRemove={async (userId) => { await removeContact(userId); notify("Contact removed.", "success"); }} />
       <CreateGroupModal open={groupOpen} onClose={() => setGroupOpen(false)} onCreated={(id) => { notify("Group created.", "success"); void reload(); router.push(`/chat/${id}`); }} />
       <ProfileModal open={profileOpen} onClose={() => setProfileOpen(false)} />
       {active && <GroupInfoModal open={infoOpen} onClose={() => setInfoOpen(false)} conversation={active} me={user} onUpdated={(updated) => setConversations((items) => items.map((item) => item.id === updated.id ? updated : item))} />}
