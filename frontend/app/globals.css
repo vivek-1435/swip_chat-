@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --scalar-ink: #1b1b1b;
+  --scalar-slate: #757575;
+  --scalar-pewter: #8e8e8e;
+  --scalar-paper: #ffffff;
+  --scalar-wash: #f6f6f4;
+  --scalar-line: #e3e3df;
+  --scalar-green: #069061;
+  --scalar-blue: #0082d0;
+  --scalar-orange: #ff5800;
+  --scalar-purple: #5203d1;
+  --surface-raised: 0 18px 45px rgba(27, 27, 27, 0.08);
+  --surface-soft: 0 10px 28px rgba(27, 27, 27, 0.06);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --scalar-ink: #e6eef0;
+  --scalar-slate: #9fb0b6;
+  --scalar-pewter: #9aa8ad;
+  --scalar-paper: #0b0f11;
+  --scalar-wash: #071014;
+  --scalar-line: #223236;
+  --scalar-green: #05d487;
+  --scalar-blue: #58b7ff;
+  --scalar-orange: #ff9b5a;
+  --scalar-purple: #b792ff;
+  --surface-raised: 0 18px 45px rgba(0, 0, 0, 0.6);
+  --surface-soft: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="dark"] body {
+  background:
+    linear-gradient(180deg, rgba(8, 12, 14, 0.92), rgba(7, 10, 12, 0.96)),
+    var(--scalar-wash);
+  color: var(--scalar-ink);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.92),
+      rgba(246, 246, 244, 0.96)
+    ),
+    var(--scalar-wash);
+  color: var(--scalar-ink);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.focus-ring {
+  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-scalar-green/70 focus-visible:ring-offset-2;
+}
+
+.scalar-panel {
+  @apply border border-scalar-line bg-white shadow-[var(--surface-soft)];
+}
+
+.scalar-icon-button {
+  @apply focus-ring inline-flex items-center justify-center rounded-full border border-scalar-line bg-white text-scalar-ink shadow-[0_1px_0_rgba(255,255,255,0.9)_inset,0_10px_22px_rgba(27,27,27,0.07)] transition hover:-translate-y-0.5 hover:border-scalar-pewter/60 hover:bg-[#fbfbfa] active:translate-y-0;
+}
+
+.topbar-icon-button {
+  @apply focus-ring inline-flex h-11 w-11 items-center justify-center rounded-md border-0 bg-transparent p-0 text-scalar-slate shadow-none transition hover:bg-scalar-wash hover:text-scalar-ink active:bg-scalar-line;
+}
+
+.scalar-toggle {
+  @apply relative h-5 w-9 cursor-pointer appearance-none rounded-full border border-scalar-line bg-scalar-pewter/25 transition;
+  @apply before:content-[''] before:block before:absolute before:left-0.5 before:top-1/2 before:-translate-y-1/2 before:h-4 before:w-4 before:translate-x-0.5 before:rounded-full before:bg-white before:shadow-sm before:transition;
+  @apply checked:border-scalar-green checked:bg-scalar-green checked:before:translate-x-[18px];
+}
+
+.scalar-select {
+  @apply focus-ring h-10 rounded-full border border-scalar-line bg-white px-4 text-sm font-medium text-scalar-ink shadow-[0_1px_0_rgba(255,255,255,0.9)_inset];
+}
