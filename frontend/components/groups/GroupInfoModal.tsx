@@ -5,7 +5,6 @@ import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { GroupMembers } from "./GroupMembers";
 import { ManageGroupModal } from "./ManageGroupModal";
-import { useNotifications } from "@/hooks/useNotifications";
 import type { Conversation } from "@/types/conversation";
 import type { User } from "@/types/user";
 
@@ -23,7 +22,7 @@ export function GroupInfoModal({
   onUpdated: (conversation: Conversation) => void;
 }) {
   const [manage, setManage] = useState(false);
-  const { notify } = useNotifications();
+
   const canManage = conversation.members.some((member) => !member.left_at && member.user_id === me?.id && member.role === "admin");
 
 

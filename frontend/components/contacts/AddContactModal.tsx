@@ -27,7 +27,8 @@ export function AddContactModal({ open, onClose, onOpenDirect, onAdded }: { open
       setSelectedUser(null);
       setSavedName("");
       onAdded?.();
-    } catch (e: any) {
+    } catch (err) {
+      const e = err as Error;
       notify(e.message || "Failed to add contact", "error");
     }
   }
@@ -37,7 +38,8 @@ export function AddContactModal({ open, onClose, onOpenDirect, onAdded }: { open
     try {
       await remove(userId);
       notify("Contact removed successfully", "success");
-    } catch (e: any) {
+    } catch (err) {
+      const e = err as Error;
       notify(e.message || "Failed to remove contact", "error");
     }
   }

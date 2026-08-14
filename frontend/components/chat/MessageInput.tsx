@@ -2,7 +2,6 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Paperclip, Send, X } from "lucide-react";
-import { Button } from "@/components/ui/Button";
 import type { Message } from "@/types/message";
 
 export function MessageInput({ onSend, onTyping, reply, onCancelReply }: { onSend: (content: string, replyId?: number | null) => Promise<void>; onTyping: (active: boolean) => void; reply?: Message | null; onCancelReply: () => void }) {

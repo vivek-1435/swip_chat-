@@ -24,7 +24,8 @@ export function ManageGroupModal({ open, onClose, conversation, me, onUpdated }:
       const updated = await addGroupMember(conversation.id, userId);
       onUpdated(updated);
       notify("Member added", "success");
-    } catch (e: any) {
+    } catch (err) {
+      const e = err as Error;
       notify(e.message || "Failed to add member", "error");
     }
   }
@@ -34,7 +35,8 @@ export function ManageGroupModal({ open, onClose, conversation, me, onUpdated }:
       const updated = await removeGroupMember(conversation.id, userId);
       onUpdated(updated);
       notify("Member removed", "success");
-    } catch (e: any) {
+    } catch (err) {
+      const e = err as Error;
       notify(e.message || "Failed to remove member", "error");
     }
   }
@@ -44,7 +46,8 @@ export function ManageGroupModal({ open, onClose, conversation, me, onUpdated }:
       const updated = await updateGroupMemberRole(conversation.id, userId, "admin");
       onUpdated(updated);
       notify("Member promoted to admin", "success");
-    } catch (e: any) {
+    } catch (err) {
+      const e = err as Error;
       notify(e.message || "Failed to update role", "error");
     }
   }
@@ -55,7 +58,8 @@ export function ManageGroupModal({ open, onClose, conversation, me, onUpdated }:
       notify("Group deleted", "success");
       onClose();
       window.location.href = "/";
-    } catch (e: any) {
+    } catch (err) {
+      const e = err as Error;
       notify(e.message || "Failed to delete group", "error");
     }
   }
