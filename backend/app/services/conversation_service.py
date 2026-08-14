@@ -58,6 +58,16 @@ def list_conversations(db: Session, user_id: int, q: str | None = None) -> list[
         )
         .unique()
     )
+    seen_direct_pairs = set()
+    deduped_rows = []
+    for c in rows:
+        if c.type == "direct":
+            member_ids = frozenset(m.user_id for m in c.members if m.left_at is None)
+            if member_ids in seen_direct_pairs:
+                continue
+            seen_direct_pairs.add(member_ids)
+        deduped_rows.append(c)
+    rows = deduped_rows
     if q:
         needle = q.lower()
         rows = [
@@ -91,6 +101,7 @@ def create_or_get_direct(db: Session, current_user_id: int, other_user_id: int) 
         select(Conversation)
         .join(ConversationMember)
         .where(Conversation.type == "direct", ConversationMember.user_id.in_([current_user_id, other_user_id]))
+        .order_by(desc(Conversation.updated_at))
     ).unique()
     for convo in candidates:
         member_ids = {m.user_id for m in convo.members if m.left_at is None}
