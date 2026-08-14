@@ -1,7 +1,6 @@
 import { ArrowLeft, Info, Phone, Video } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Avatar } from "@/components/ui/Avatar";
-import { Button } from "@/components/ui/Button";
 import { conversationAvatar, conversationTitle } from "@/lib/utils";
 import type { Conversation } from "@/types/conversation";
 import type { User } from "@/types/user";
@@ -27,9 +26,9 @@ export function ChatHeader({ conversation, me, contacts, onInfo }: { conversatio
         </div>
       </div>
       <div className="flex gap-0.5 flex-shrink-0">
-        <Button aria-label="Voice call coming soon" title="Voice call" className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent border-0 shadow-none text-white/90 transition hover:bg-white/15 active:bg-white/25 p-0"><Phone size={22} strokeWidth={2.25} /></Button>
-        <Button aria-label="Video call coming soon" title="Video call" className="hidden sm:inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent border-0 shadow-none text-white/90 transition hover:bg-white/15 active:bg-white/25 p-0"><Video size={22} strokeWidth={2.25} /></Button>
-        <Button aria-label="Conversation info" title="Conversation info" onClick={onInfo} className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent border-0 shadow-none text-white/90 transition hover:bg-white/15 active:bg-white/25 p-0"><Info size={22} strokeWidth={2.25} /></Button>
+        <button aria-label="Voice call coming soon" title="Voice call" className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent border-0 shadow-none text-white/90 transition hover:bg-white/15 active:bg-white/25 p-0"><Phone size={21} strokeWidth={2.2} /></button>
+        <button aria-label="Video call coming soon" title="Video call" className="hidden sm:inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent border-0 shadow-none text-white/90 transition hover:bg-white/15 active:bg-white/25 p-0"><Video size={21} strokeWidth={2.2} /></button>
+        <button aria-label="Conversation info" title="Conversation info" onClick={onInfo} className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-transparent border-0 shadow-none text-white/90 transition hover:bg-white/15 active:bg-white/25 p-0"><Info size={21} strokeWidth={2.2} /></button>
       </div>
     </header>
   );
