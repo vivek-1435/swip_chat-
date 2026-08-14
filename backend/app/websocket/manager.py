@@ -1,4 +1,5 @@
 from fastapi import WebSocket
+from fastapi.websockets import WebSocketDisconnect
 
 
 class ConnectionManager:
@@ -18,8 +19,14 @@ class ConnectionManager:
             self.active_connections.pop(user_id, None)
 
     async def send_personal_message(self, user_id: int, payload: dict) -> None:
+        dead: list[WebSocket] = []
         for socket in list(self.active_connections.get(user_id, set())):
-            await socket.send_json(payload)
+            try:
+                await socket.send_json(payload)
+            except (WebSocketDisconnect, RuntimeError):
+                dead.append(socket)
+        for socket in dead:
+            self.disconnect(user_id, socket)
 
     async def broadcast_to_users(self, user_ids: list[int], payload: dict) -> None:
         for user_id in set(user_ids):

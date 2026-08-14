@@ -62,4 +62,7 @@ async def handle_event(db: Session, websocket: WebSocket, user_id: int, raw: dic
             return
         await websocket.send_json({"type": "error", "message": "Unknown event type"})
     except Exception as exc:
-        await websocket.send_json({"type": "error", "message": str(exc)})
+        try:
+            await websocket.send_json({"type": "error", "message": str(exc)})
+        except Exception:
+            pass

@@ -51,13 +51,14 @@ async def websocket_endpoint(user_id: int, websocket: WebSocket, db: Session = D
         return
     await manager.connect(user_id, websocket)
     await set_presence(db, user_id, True)
-    # Presence is intentionally lightweight and best-effort.
     try:
         while True:
             data = await websocket.receive_json()
             await handle_event(db, websocket, user_id, data)
     except WebSocketDisconnect:
+        pass
+    except Exception:
+        pass
+    finally:
         manager.disconnect(user_id, websocket)
         await set_presence(db, user_id, False)
-    finally:
-        await manager.broadcast_to_users([], {"type": "noop"})

@@ -61,7 +61,8 @@ export function ChatLayout({ activeId }: { activeId?: number }) {
       <div className={active ? "hidden md:block" : "block"}>
         <Sidebar user={user} conversations={conversations} contacts={contacts} loading={loading} query={query} activeId={activeId} onQuery={setQuery} onSelect={(id) => router.push(`/chat/${id}`)} onNew={() => setNewOpen(true)} onGroup={() => setGroupOpen(true)} onProfile={() => setProfileOpen(true)} onLogout={signOut} />
       </div>
-      <main className={active ? "flex min-h-0 flex-col bg-[radial-gradient(circle_at_top_left,rgba(0,130,208,0.06),transparent_28%),linear-gradient(180deg,#fbfbfa,#f2f2ef)]" : "hidden min-h-0 flex-col bg-[radial-gradient(circle_at_top_left,rgba(0,130,208,0.06),transparent_28%),linear-gradient(180deg,#fbfbfa,#f2f2ef)] md:flex"}>
+      <main className={active ? "flex min-h-0 flex-col bg-[#efeae2]" : "hidden min-h-0 flex-col bg-[#efeae2] md:flex"}>
+
         {!active ? (
           <div className="flex flex-1 items-center justify-center text-sm text-scalar-slate">Select a conversation to start messaging</div>
         ) : (

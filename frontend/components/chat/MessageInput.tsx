@@ -49,7 +49,7 @@ export function MessageInput({ onSend, onTyping, reply, onCancelReply }: { onSen
   }
 
   return (
-    <form onSubmit={submit} className="border-t border-scalar-line bg-white/95 p-2 sm:p-3 pb-safe">
+    <form onSubmit={submit} className="border-t border-[#d1d7db] bg-[#f0f2f5] p-2 sm:p-3 pb-safe">
       {reply && (
         <div className="mb-2 flex items-center justify-between rounded-lg border border-scalar-line bg-[#fbfbfa] px-3 py-2 text-xs text-scalar-slate shadow-[0_6px_14px_rgba(27,27,27,0.04)]">
           <span className="truncate">Replying to {reply.sender.display_name}: {reply.content}</span>
