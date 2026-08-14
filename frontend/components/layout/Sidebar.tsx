@@ -3,7 +3,6 @@
 import { LogOut, Settings, Users, MessageCirclePlus } from "lucide-react";
 import Link from "next/link";
 import { Avatar } from "@/components/ui/Avatar";
-import { Button } from "@/components/ui/Button";
 import { ConversationList } from "@/components/conversations/ConversationList";
 import { ConversationSearch } from "@/components/conversations/ConversationSearch";
 import type { Conversation } from "@/types/conversation";
@@ -42,7 +41,7 @@ export function Sidebar({
       {/* Top bar */}
       <header className="flex h-[60px] items-center justify-between px-4 bg-scalar-green">
         <button onClick={onProfile} className="flex min-w-0 items-center gap-2.5 rounded-lg p-1 text-left transition active:opacity-70">
-          <Avatar src={user?.avatar_url} name={user?.display_name ?? "Me"} size="sm" online />
+          <Avatar src={user?.avatar_url} name={user?.display_name ?? "Me"} online />
           <span className="min-w-0">
             <span className="block truncate text-sm font-bold text-white">{user?.display_name ?? "SwipChat"}</span>
             <span className="block text-[11px] text-white/70">@{user?.username}</span>

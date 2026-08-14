@@ -22,7 +22,6 @@ export function ConversationItem({ conversation, contacts, me, active, onClick }
         src={conversationAvatar(conversation, me)}
         name={conversationTitle(conversation, me, contacts)}
         online={conversation.type === "direct" ? other?.is_online : undefined}
-        size="md"
       />
       <span className="min-w-0 flex-1">
         <span className="flex items-baseline justify-between gap-2">
