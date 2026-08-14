@@ -6,12 +6,27 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Avatar } from "@/components/ui/Avatar";
 import { ContactSearch } from "./ContactSearch";
-import { useContacts } from "@/hooks/useContacts";
+import { useContactSearch } from "@/hooks/useContactSearch";
 import { useNotifications } from "@/hooks/useNotifications";
+import type { Contact } from "@/services/contactApi";
 import type { User } from "@/types/user";
 
-export function AddContactModal({ open, onClose, onOpenDirect, onAdded }: { open: boolean; onClose: () => void; onOpenDirect: (userId: number) => void; onAdded?: () => void }) {
-  const { contacts, results, query, setQuery, add, remove } = useContacts();
+export function AddContactModal({
+  open,
+  onClose,
+  onOpenDirect,
+  contacts,
+  onAdd,
+  onRemove,
+}: {
+  open: boolean;
+  onClose: () => void;
+  onOpenDirect: (userId: number) => void;
+  contacts: Contact[];
+  onAdd: (userId: number, savedName?: string) => Promise<void>;
+  onRemove: (userId: number) => Promise<void>;
+}) {
+  const { results, query, setQuery } = useContactSearch();
   const { notify } = useNotifications();
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [savedName, setSavedName] = useState("");
@@ -22,11 +37,10 @@ export function AddContactModal({ open, onClose, onOpenDirect, onAdded }: { open
   async function handleAddContact() {
     if (!selectedUser) return;
     try {
-      await add(selectedUser.id, savedName.trim() || undefined);
+      await onAdd(selectedUser.id, savedName.trim() || undefined);
       notify("Contact added successfully", "success");
       setSelectedUser(null);
       setSavedName("");
-      onAdded?.();
     } catch (err) {
       const e = err as Error;
       notify(e.message || "Failed to add contact", "error");
@@ -36,7 +50,7 @@ export function AddContactModal({ open, onClose, onOpenDirect, onAdded }: { open
   async function handleRemoveContact(e: React.MouseEvent, userId: number) {
     e.stopPropagation();
     try {
-      await remove(userId);
+      await onRemove(userId);
       notify("Contact removed successfully", "success");
     } catch (err) {
       const e = err as Error;
