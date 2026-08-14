@@ -93,7 +93,7 @@ export function ChatLayout({ activeId }: { activeId?: number }) {
           </>
         )}
       </main>
-      <AddContactModal open={newOpen} onClose={() => setNewOpen(false)} onOpenDirect={openDirect} contacts={contacts} onAdd={async (userId, savedName) => { await addContact(userId, savedName); notify("Contact added.", "success"); }} onRemove={async (userId) => { await removeContact(userId); notify("Contact removed.", "success"); }} />
+      <AddContactModal open={newOpen} onClose={() => setNewOpen(false)} onOpenDirect={openDirect} contacts={contacts} onAdd={async (userId, savedName) => { await addContact(userId, savedName); notify("Contact added.", "success"); }} onRemove={async (userId) => { await removeContact(userId); notify("Contact removed.", "success"); void reload(); }} />
       <CreateGroupModal open={groupOpen} onClose={() => setGroupOpen(false)} onCreated={(id) => { notify("Group created.", "success"); void reload(); router.push(`/chat/${id}`); }} />
       <ProfileModal open={profileOpen} onClose={() => setProfileOpen(false)} />
       {active && <GroupInfoModal open={infoOpen} onClose={() => setInfoOpen(false)} conversation={active} me={user} onUpdated={(updated) => setConversations((items) => items.map((item) => item.id === updated.id ? updated : item))} />}

@@ -28,8 +28,9 @@ export function useContacts() {
   }
 
   async function remove(userId: number) {
-    await removeContact(userId);
+    // Optimistic: remove instantly from UI, then sync with backend
     setContacts((prev) => prev.filter((c) => c.contact_user_id !== userId));
+    await removeContact(userId);
   }
 
   return { contacts, results, query, setQuery, add, remove, reload };
